@@ -17,7 +17,7 @@ public class Main {
                         "ivan@test.ru",
                         "+79991112233",
                         LocalDate.of(1990, 5, 15),
-                        ClientStatus.ACTIVE.toString()
+                        ClientStatus.ACTIVE
                 )
         );
 
@@ -26,7 +26,7 @@ public class Main {
 
         service.delete(ivan.getId());
 
-        System.out.println(Client.getClients().size());
+        System.out.println(service.findAll().size());
 
     }
 }

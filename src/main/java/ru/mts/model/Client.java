@@ -1,12 +1,10 @@
 package ru.mts.model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Client {
-    private static final List<Client> clients = new ArrayList<>();
-
+    private static int nextId = 1;
     private int id;
     private String firstName;
     private String lastName;
@@ -15,14 +13,14 @@ public class Client {
     private LocalDate birthDate;
     private ClientStatus status;
 
-    public Client(String firstName, String lastName, String email, String phone, LocalDate birthDate, String status) {
-        this.id = clients.size();
+    public Client(String firstName, String lastName, String email, String phone, LocalDate birthDate, ClientStatus status) {
+        this.id = nextId++;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
         this.birthDate = birthDate;
-        this.status = ClientStatus.valueOf(status);
+        this.status = status;
     }
 
     public int getId() {
@@ -79,9 +77,5 @@ public class Client {
 
     public void setStatus(ClientStatus status) {
         this.status = status;
-    }
-
-    public static List<Client> getClients() {
-        return clients;
     }
 }
