@@ -2,6 +2,7 @@ package ru.mts;
 
 import ru.mts.model.Client;
 import ru.mts.model.ClientSearchCriteria;
+import ru.mts.model.ClientStatistics;
 import ru.mts.model.ClientStatus;
 import ru.mts.service.ClientService;
 
@@ -93,7 +94,7 @@ public class Main {
         System.out.println(service.findByCriteria(criteria3));
 
         // пагинация
-        System.out.println(service.pageResult(2));
+        System.out.println(service.pageResult(2, 2));
 
         // несуществующий клиент
         Client c2 = service.findById(100);
@@ -102,9 +103,8 @@ public class Main {
         service.delete(3);
 
         // статистика
-        service.ClientStatistics();
+        ClientStatistics clientStatistics = service.ClientStatistics();
 
-        // средний возраст
-        service.AverageClientAge();
+
     }
 }

@@ -1,7 +1,6 @@
 package ru.mts.model;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class Client {
     private String firstName;
@@ -10,6 +9,7 @@ public class Client {
     private String phone;
     private LocalDate birthDate;
     private ClientStatus status;
+    private int Id;
 
     public Client(String firstName, String lastName, String email, String phone, LocalDate birthDate, ClientStatus status) {
         this.firstName = firstName;
@@ -66,6 +66,14 @@ public class Client {
 
     public void setStatus(ClientStatus status) {
         this.status = status;
+    }
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
     }
 
     @Override

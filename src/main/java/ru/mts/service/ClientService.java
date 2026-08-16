@@ -7,10 +7,7 @@ import ru.mts.model.*;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ClientService {
@@ -18,8 +15,8 @@ public class ClientService {
     private final Map<Integer, Client> clients = new HashMap<Integer, Client>();
 
     public Client create(Client client) {
-        clients.put(nextInt, client);
-        nextInt += 1;
+        client.setId(nextInt);
+        clients.put(nextInt++, client);
         return client;
     }
 
@@ -32,7 +29,7 @@ public class ClientService {
     }
 
     public void delete(int id) {
-        Client c = clients.get(id);
+        Client c = findById(id);
         if(c.getStatus().equals(ClientStatus.BLOCKED)) {
             throw new ClientBlockedException("Client with id " + id + " is blocked");
         }
@@ -72,37 +69,29 @@ public class ClientService {
                 .collect(Collectors.toList());
     }
 
-    public List<Client> pageResult(int pageSize) {
+    public List<Client> pageResult(long page, long size) {
         return clients.values().stream()
-                .limit(pageSize)
+                .skip(page*size)
+                .limit(size)
                 .collect(Collectors.toList());
     }
 
-    public void ClientStatistics() {
-        System.out.println("Количество клиентов: " + clients.size());
-        System.out.println("Количество ACTIVE: " + clients.values().stream()
+    public ClientStatistics ClientStatistics() {
+        int total = clients.size();
+        long active = clients.values().stream()
                 .filter(c -> c.getStatus().equals(ClientStatus.ACTIVE))
-                .count());
-        System.out.println("Количество INACTIVE: " + clients.values().stream()
+                .count();
+        long inactive = clients.values().stream()
                 .filter(c -> c.getStatus().equals(ClientStatus.INACTIVE))
-                .count());
-        System.out.println("Количество BLOCKED: " + clients.values().stream()
+                .count();
+        long blocked = clients.values().stream()
                 .filter(c -> c.getStatus().equals(ClientStatus.BLOCKED))
-                .count());
-        //System.out.println("Средний возраст клиентов: " + clients.values().stream()
-               // .map(c -> c.)
-        System.out.println(clients);
-    }
-
-    public void AverageClientAge() {
-        Double averageAge = clients.values().stream()
+                .count();
+        double averageAge = clients.values().stream()
                 .map(c -> ChronoUnit.YEARS.between(c.getBirthDate(), LocalDate.now()))
                 .mapToLong(c -> c)
                 .average()
                 .orElse(0.0);
-
-        DecimalFormat df = new DecimalFormat("#.##");
-        String formattedAverage = df.format(averageAge);
-        System.out.println("Средний возраст клиентов: " + formattedAverage);
+        return new ClientStatistics(total, active, inactive, blocked, averageAge);
     }
 }
