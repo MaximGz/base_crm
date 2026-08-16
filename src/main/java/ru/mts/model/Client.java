@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Client {
-    private static int nextId = 1;
-    private int id;
     private String firstName;
     private String lastName;
     private String email;
@@ -14,17 +12,12 @@ public class Client {
     private ClientStatus status;
 
     public Client(String firstName, String lastName, String email, String phone, LocalDate birthDate, ClientStatus status) {
-        this.id = nextId++;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
         this.birthDate = birthDate;
         this.status = status;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getFirstName() {
@@ -51,10 +44,6 @@ public class Client {
         return status;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -77,5 +66,13 @@ public class Client {
 
     public void setStatus(ClientStatus status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "fullname='" + lastName + " " + firstName +
+                ", birthDate=" + birthDate +
+                '}';
     }
 }
