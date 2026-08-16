@@ -103,7 +103,7 @@ public class Main {
         service.delete(3);
 
         // статистика
-        ClientStatistics clientStatistics = service.ClientStatistics();
+        ClientStatistics clientStatistics = service.getStatistics();
 
 
     }

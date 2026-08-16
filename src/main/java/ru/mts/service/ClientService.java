@@ -4,10 +4,13 @@ import ru.mts.exceptions.ClientBlockedException;
 import ru.mts.exceptions.ClientNotFoundException;
 import ru.mts.model.*;
 
-import java.text.DecimalFormat;
+import java.security.InvalidParameterException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ClientService {
@@ -70,13 +73,16 @@ public class ClientService {
     }
 
     public List<Client> pageResult(long page, long size) {
+        if(page < 0 || size <=0) {
+            throw new InvalidParameterException("page or size must be greater than zero");
+        }
         return clients.values().stream()
                 .skip(page*size)
                 .limit(size)
                 .collect(Collectors.toList());
     }
 
-    public ClientStatistics ClientStatistics() {
+    public ClientStatistics getStatistics() {
         int total = clients.size();
         long active = clients.values().stream()
                 .filter(c -> c.getStatus().equals(ClientStatus.ACTIVE))

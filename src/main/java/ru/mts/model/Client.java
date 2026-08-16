@@ -9,7 +9,7 @@ public class Client {
     private String phone;
     private LocalDate birthDate;
     private ClientStatus status;
-    private int Id;
+    private int id;
 
     public Client(String firstName, String lastName, String email, String phone, LocalDate birthDate, ClientStatus status) {
         this.firstName = firstName;
@@ -69,11 +69,11 @@ public class Client {
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public void setId(int id) {
-        Id = id;
+        this.id = id;
     }
 
     @Override
